@@ -10,12 +10,12 @@ const chalk = require('chalk'),
       execFile = require('child_process').execFile,
       walk = require('walk-promise'),
       pngquant = require('pngquant-bin'),
-      childProcess = require('child_process'),
+      //childProcess = require('child_process'),
       request = require('request-promise'),
       zipdir = require('zip-dir');
 const argv = require('minimist')(process.argv.slice(2));
 let gamePath = path.resolve(__dirname + '/../', argv._[0]);
-console.log('gamePath', gamePath);
+
 let name = dateFormat(new Date(), 'yyyymmdd-hhmmss');
 let basePath = `${gamePath}/build/${name}`;
 
@@ -50,7 +50,6 @@ fs.mkdirs(basePath)
   return platform + '-' + environment + '-' + dateFormat(new Date(), 'yyyymmdd-hhmmss') + '.zip';
 }*/
 function copyGame(gamePath, name) {
-  console.log('copyGame', name);
   let files = ['index.html'];
   let dirs = [
     'src',
@@ -123,7 +122,7 @@ function handlePNGFiles(basePath, files, compressionBlacklist) {
       }
     });
 }
-
+/*
 function getGitHash() {
   return new Promise((resolve, reject) => {
     childProcess.exec('git rev-parse HEAD', (err, stdout) => {
@@ -134,7 +133,7 @@ function getGitHash() {
       }
     });
   });
-}
+}*/
 function upload(appId, facebookUploadAccessToken, file) {
   return Promise.resolve()
     .then((commitHash) => {
