@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>三国记・梦之战</title>
+    <script src="./plugin/raven.min.js"></script>
+    <script>
+        if(!window.Promise){
+            var tag = '<script type="text/javascript" src="./plugin/es6-promise.auto.min.js"><\/script>';
+            document.write(tag);
+        }
+        //window.setting = {isLocal:false, platform:"fb"};
+
+        window.setting = {isLocal:false, platform:"fb",amplitudeApiKey:"34212a9bffbb060e4ffaeedbf3f74d8e"};
+        var tag;
+        if (window.setting.platform === 'fb') {
+            tag = '<script type="text/javascript" charset="utf-8" src="https://connect.facebook.net/en_US/fbinstant.6.2.js"><\/script>';
+        } else {
+            tag = '<script type="text/javascript" src="./plugin/LocalPlatform.js"><\/script>';
+        }
+        document.write(tag);
+        if (!window.setting.isLocal) {
+            document.write('<script type="text/javascript" src="./plugin/amplitude-4.4.0-min.js"><\/script>');
+            Raven.config('https://9e20e60b59f3499c81a952fce251e7db@sentry.io/1274742', {
+                tags: {gameTitle: 'sgj-mzz', platform: window.setting.platform}
+                , environment: window.setting.env || 'default'
+            }).install();
+        }
+    </script>
+    <script type="text/javascript" src="./plugin/Photon-Javascript_SDK.js"></script>
+    <script type="text/javascript" src="./plugin/PhotonClient.js"></script>
+    <script type="text/javascript" src="./plugin/lufylegend-2.0.0.beta.js"></script>
+    <script type="text/javascript" src="./plugin/lufylegend.ui-0.15.0.min.js"></script>
+    <script type="text/javascript" src="./plugin/LPlatform.js"></script>
+    <script type="text/javascript" src="./src/Main.js"></script>
+</head>
+    <body style="margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;background-color:#000000;">
+        <div id="legend">loading</div>
+    </body>
+</html>
