@@ -10,13 +10,12 @@
             var tag = '<script type="text/javascript" src="./plugin/es6-promise.auto.min.js"><\/script>';
             document.write(tag);
         }
-        window.setting = {
-            isLocal:JSON.parse("{{{isLocal}}}"), 
-            platform:JSON.parse("{{{platform}}}"), 
-            wss:JSON.parse("{{{wss}}}"), 
-            amplitudeApiKey:JSON.parse("{{{amplitudeApiKey}}}"),
-            photonAppId:JSON.parse("{{{photonAppId}}}")
-        };
+        window.setting = {};
+            window.setting.isLocal=JSON.parse("{{{isLocal}}}"); 
+            window.setting.platform="{{{platform}}}"; 
+            window.setting.wss=JSON.parse("{{{wss}}}");
+            window.setting.amplitudeApiKey="{{{amplitudeApiKey}}}";
+            window.setting.photonAppId="{{{photonAppId}}}";
         if (!window.setting.isLocal) {
             document.write('<script type="text/javascript" src="./plugin/amplitude-4.4.0-min.js"><\/script>');
             Raven.config('https://9e20e60b59f3499c81a952fce251e7db@sentry.io/1274742', {
