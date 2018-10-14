@@ -17,7 +17,7 @@ const argv = require('minimist')(process.argv.slice(2));
 let gamePath = path.resolve(__dirname + '/../', argv._[0]);
 
 let name = dateFormat(new Date(), 'yyyymmdd-hhmmss');
-let basePath = `${gamePath}/build/${name}`;
+let basePath = `${gamePath}/build/www`;
 
 fs.mkdirs(basePath)
   .then(() => {
@@ -39,11 +39,11 @@ fs.mkdirs(basePath)
   })
   .then(() => {
     let src = basePath;
-    let dest = `${basePath}.zip`;
+    let dest = `${gamePath}/build/${name}.zip`;
     return zipFileAsync(src, dest);
   })
   .then(() => {
-    return upload(appId, token, `${basePath}.zip`);
+    return upload(appId, token, `${gamePath}/build/${name}.zip`);
   });
 
 /*function getPackageName(platform, environment) {
@@ -58,7 +58,7 @@ function copyGame(gamePath, name) {
   ];
   let promises = [];
   files.forEach((file) => {
-    let src = `${gamePath}/${file}`;
+    let src = `templetes/${file}`;
     let dest = `${basePath}/${file}`;
     let promise = fs.copyFile(src, dest);
     promises.push(promise);
@@ -69,7 +69,17 @@ function copyGame(gamePath, name) {
     let promise = fs.copy(src, dest);
     promises.push(promise);
   });
-  return Promise.all(promises);
+  return Promise.all(promises)
+    .then(configReplace);
+}
+function configReplace() {
+  let gameConfig = JSON.parse(fs.readFileSync(`${gamePath}/config/facebook.json`, 'utf8'));
+  let indexText = fs.readFileSync(`${basePath}/index.html`, 'utf8');
+  
+  for (let key in gameConfig) {
+    indexText = indexText.replace(new RegExp('\{\{\{' + key + '\}\}\}', 'g'), gameConfig[key]);
+  }
+  fs.writeFileSync(`${basePath}/index.html`, indexText);
 }
 function zipFileAsync(src, dest) {
   return new Promise((resolve, reject) => {
